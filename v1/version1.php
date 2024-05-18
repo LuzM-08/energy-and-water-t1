@@ -34,7 +34,7 @@ try {
 
 //Tokens
 $_token_get = 'Bearer ciisa';
-$_token_post = 'Bearer ciisa';
-$_token_put = 'Bearer ciisa';
-$_token_patch = 'Bearer ciisa';
-$_token_delete = 'Bearer ciisa';
+$_token_post = 'Bearer post';
+$_token_put = 'Bearer put';
+$_token_patch = 'Bearer patch';
+$_token_delete = 'Bearer delete';
