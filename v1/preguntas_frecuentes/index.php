@@ -22,7 +22,7 @@ if (count($_parametros) > 0) {
 }
 
 if ($_version == 'v1') {
-    if ($_mantenedor == 'equipo') {
+    if ($_mantenedor == 'preguntas_frecuentes') {
         switch ($_metodo) {
             case 'GET':
                 if ($_header == $_token_get) {
@@ -89,7 +89,7 @@ if ($_version == 'v1') {
                     include_once '../conexion.php';
                     $body = json_decode(file_get_contents("php://input", true));
                     $control = new Controlador();
-                    $respuesta = $control->putTextoById($body, $body);
+                    $respuesta = $control->putPreguntaById($body, $body);
                     http_response_code(200);
                     echo json_encode(['data' => $respuesta]);
                 } else {
