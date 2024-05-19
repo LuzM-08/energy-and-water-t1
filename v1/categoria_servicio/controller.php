@@ -14,7 +14,6 @@ class Controlador
     {
         $con = new Conexion();
         $sql = "SELECT id, nombre, imagen, texto, activo FROM categoria_servicio";
-        $sql = "SELECT id, nombre, imagen, activo FROM imagen";
         $rs = mysqli_query($con->getConnection(), $sql);
         if ($rs) {
             while ($tupla = mysqli_fetch_assoc($rs)) {
@@ -31,8 +30,7 @@ class Controlador
     {
         $con = new Conexion();
         $id = count($this->getAll()) + 1;
-        $sql = "INSERT INTO categoria_servicio (id, nombre, imagen, texto, activo) VALUES (0, 'NOMBRE', 'URL IMAGEN', 'TEXTO', true);";
-        $sql = "INSERT INTO imagen (id, nombre, imagen, activo) VALUES (0, 'NOMBRE', 'URL IMAGEN', true);";
+        $sql = "INSERT INTO categoria_servicio (id, nombre, imagen, texto, activo) VALUES ($id, '$_newObject->nombre', '$_newObject->imagen', '$_newObject->texto', true);";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);

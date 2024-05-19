@@ -33,8 +33,8 @@ try {
 }
 
 //Tokens
-$_token_get = 'Bearer ciisa';
-$_token_post = 'Bearer post';
-$_token_put = 'Bearer put';
-$_token_patch = 'Bearer patch';
-$_token_delete = 'Bearer delete';
+$_token_get = 'Bearer ciisa-get';
+$_token_post = 'Bearer ciisa-post';
+$_token_put = 'Bearer ciisa-put';
+$_token_patch = 'Bearer ciisa-patch';
+$_token_delete = 'Bearer ciisa-delete';
