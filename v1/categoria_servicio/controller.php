@@ -64,8 +64,7 @@ class Controlador
     public function putNombreById($_nombre, $_id)
     {
         $con = new Conexion();
-        $sql = "UPDATE mantenedor SET nombre = '$_nombre' WHERE id = $_id;";
-        // echo $sql;
+        $sql = "UPDATE categoria_servicio SET nombre = '$_nombre' WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
@@ -82,8 +81,7 @@ class Controlador
     public function deleteById($_id)
     {
         $con = new Conexion();
-        $sql = "DELETE FROM mantenedor WHERE id = $_id;";
-        // echo $sql;
+        $sql = "DELETE FROM categoria_servicio WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
