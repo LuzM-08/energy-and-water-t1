@@ -13,12 +13,15 @@ class Controlador
     public function getAll()
     {
         $con = new Conexion();
-        $sql = "SELECT id, tipo, texto, activo FROM equipo;";
-        $sql = "SELECT id, historia_id, imagen_id FROM equipo_imagen;";
+        $sql = "SELECT equi.id, equi.tipo, equi.texto, equi.activo, img.imagen
+        FROM equipo equi 
+        JOIN equipo_imagen equimg 
+        ON equi.id = equimg.equipo_id 
+        JOIN imagen img 
+        ON equimg.imagen_id = img.id;";
         $rs = mysqli_query($con->getConnection(), $sql);
         if ($rs) {
             while ($tupla = mysqli_fetch_assoc($rs)) {
-                $tupla['activo'] = $tupla['activo'] == 1 ? true : false;
                 array_push($this->lista, $tupla);
             }
             mysqli_free_result($rs);
@@ -27,13 +30,11 @@ class Controlador
         return $this->lista;
     }
 
-    public function postNuevo($_newObject)
+    public function postNuevo($_tipo, $_texto, $_accion)
     {
         $con = new Conexion();
         $id = count($this->getAll()) + 1;
-        $sql = "INSERT INTO equipo (id, tipo, texto, activo) VALUES (0, 'TIPO', 'TEXTO', true);";
-        $sql = "INSERT INTO equipo_imagen (id, historia_id, imagen_id) VALUES (0, 0, 0);";
-        // echo $sql;
+        $sql = "INSERT ALL INTO equipo (id, tipo, texto, activo) VALUES ($id, $_tipo, $_texto, $_accion);";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
@@ -52,8 +53,8 @@ class Controlador
     public function patchEncenderApagar($_id, $_accion)
     {
         $con = new Conexion();
-        $sql = "UPDATE equipo SET tipo = 'Nuevo tipo', texto = 'Nuevo texto' WHERE id = 0;";
-        $sql = "UPDATE equipo_imagen SET historia_id = 'Nuevo id', imagen_id = 'Nuevo id' WHERE id = 0;";
+        $sql = "UPDATE equipo SET activo = $_accion WHERE id = $_id;";
+        $sql = "UPDATE equipo_imagen SET activo = $_accion WHERE id = $_id;";
         // echo $sql;
         $rs = false;
         try {
@@ -70,10 +71,9 @@ class Controlador
         return null;
     }
 
-    public function putNombreById($_nombre, $_id)
-    {
-        $con = new Conexion();
-        $sql = "UPDATE mantenedor SET nombre = '$_nombre' WHERE id = $_id;";
+    public function putTextoById($_texto, $_id)
+    {   $con = new Conexion();
+        $sql = "UPDATE equipo SET texto = '$_texto' WHERE id = $_id;";
         // echo $sql;
         $rs = false;
         try {
@@ -93,8 +93,7 @@ class Controlador
     public function deleteById($_id)
     {
         $con = new Conexion();
-        $sql = "DELETE FROM mantenedor WHERE id = $_id;";
-        // echo $sql;
+        $sql = "DELETE FROM equipo WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);

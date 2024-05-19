@@ -45,7 +45,7 @@ if ($_version == 'v1') {
                     $body = json_decode(file_get_contents("php://input", true));
                     //trae el getall y corrobora q el dato a insertar no exista. Si existe. salta al error 409. 
                     //Si no existe, entonces se intenta insertar
-                    $respuesta = $control->postNuevo($body);
+                    $respuesta = $control->postNuevo($$_tipo, $_texto, $_accion);
                     if ($respuesta) {
                         http_response_code(201);
                         echo json_encode(['data' => $respuesta]);
@@ -73,10 +73,10 @@ if ($_version == 'v1') {
                             http_response_code(200);
                             echo json_encode(['data' => $respuesta]);
                         } else {
-                            echo 'error con acciones';
+                            echo 'Error: No se pudo cambiar el estado.';
                         }
                     } else {
-                        echo 'faltan parametros';
+                        echo 'Error: faltan parametros.';
                     }
                 } else {
                     http_response_code(401);
@@ -89,7 +89,7 @@ if ($_version == 'v1') {
                     include_once '../conexion.php';
                     $body = json_decode(file_get_contents("php://input", true));
                     $control = new Controlador();
-                    $respuesta = $control->putNombreById($body->nombre, $body->id);
+                    $respuesta = $control->putTextoById($body->nombre, $body->id);
                     http_response_code(200);
                     echo json_encode(['data' => $respuesta]);
                 } else {
