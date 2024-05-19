@@ -13,11 +13,7 @@ class Controlador
     public function getAll()
     {
         $con = new Conexion();
-        $sql = "SELECT equi.id, equi.tipo, equi.texto, equi.activo, img.imagen 
-        FROM equipo equi 
-        LEFT OUTER JOIN equipo_imagen equimg ON equi.id = equimg.equipo_id 
-        LEFT OUTER JOIN imagen img ON equimg.imagen_id = img.id 
-        ORDER BY equi.id;";
+        $sql = "SELECT * FROM pregunta_frecuente;";
         $rs = mysqli_query($con->getConnection(), $sql);
         if ($rs) {
             while ($tupla = mysqli_fetch_assoc($rs)) {
@@ -29,11 +25,11 @@ class Controlador
         return $this->lista;
     }
 
-    public function postNuevo($_tipo, $_texto)
+    public function postNuevo($_pregunta, $_respuesta)
     {
         $con = new Conexion();
         $id = count($this->getAll()) + 1;
-        $sql = "INSERT INTO equipo (id, tipo, texto, activo) VALUES ($id, '$_tipo->tipo', '$_texto->texto', false);";
+        $sql="INSERT INTO pregunta_frecuente (id, pregunta, respuesta, activo) VALUES ($id, '$_pregunta->pregunta', '$_respuesta->respuesta', false);";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
@@ -52,7 +48,7 @@ class Controlador
     public function patchEncenderApagar($_id, $_accion)
     {
         $con = new Conexion();
-        $sql = "UPDATE equipo SET activo = $_accion WHERE id = $_id;";
+        $sql = "UPDATE pregunta_frecuente SET activo = $_accion WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
@@ -68,10 +64,9 @@ class Controlador
         return null;
     }
 
-    public function putTextoById($_texto, $_id)
+    public function putPreguntaById($_pregunta, $_id)
     {   $con = new Conexion();
-        $sql = "UPDATE equipo SET texto = '$_texto->texto' WHERE id = '$_id->id';";
-        // echo $sql;
+        $sql = "UPDATE pregunta_frecuente SET pregunta = '$_pregunta->pregunta' WHERE id = $_id->id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
@@ -90,7 +85,7 @@ class Controlador
     public function deleteById($_id)
     {
         $con = new Conexion();
-        $sql = "DELETE FROM equipo WHERE id = $_id;";
+        $sql = "DELETE FROM pregunta_frecuente WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
