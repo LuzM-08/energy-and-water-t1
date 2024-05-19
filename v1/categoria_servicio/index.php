@@ -93,7 +93,7 @@ if ($_version == 'v1') {
                     echo json_encode(['data' => $respuesta]);
                 } else {
                     http_response_code(401);
-                    echo json_encode(['error' => 'no tiene autorizacion put']);
+                    echo json_encode(['error' => 'Error: No tiene autorizacion put']);
                 }
                 break;
             case 'DELETE':
@@ -106,7 +106,7 @@ if ($_version == 'v1') {
                     echo json_encode(['data' => $respuesta]);
                 } else {
                     http_response_code(401);
-                    echo json_encode(['error' => 'no tiene autorizacion put']);
+                    echo json_encode(['error' => 'Error: No tiene autorizacion delete']);
                 }
                 break;
             default:
