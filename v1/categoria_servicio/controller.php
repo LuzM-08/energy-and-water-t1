@@ -47,9 +47,7 @@ class Controlador
     public function patchEncenderApagar($_id, $_accion)
     {
         $con = new Conexion();
-        $sql = "UPDATE categoria_servicio SET nombre = 'Nuevo nombre', imagen = 'Nueva url imagen', texto = 'Nuevo texto' WHERE id = 0;";
-        $sql = "UPDATE equipo SET tipo = 'Nuevo tipo', texto = 'Nuevo texto' WHERE id = 0;";
-        // echo $sql;
+        $sql = "UPDATE categoria_servicio SET activo = $_accion WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
