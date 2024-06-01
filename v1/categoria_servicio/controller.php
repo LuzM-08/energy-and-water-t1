@@ -30,7 +30,8 @@ class Controlador
     {
         $con = new Conexion();
         $id = count($this->getAll()) + 1;
-        $sql = "INSERT INTO categoria_servicio (id, nombre, imagen, texto, activo) VALUES ($id, '$_newObject->nombre', '$_newObject->imagen', '$_newObject->texto', true);";
+        $sql = "INSERT INTO categoria_servicio (id, nombre, imagen, texto, activo) 
+        VALUES ($id, '$_newObject->nombre', '$_newObject->imagen', '$_newObject->texto', true);";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);

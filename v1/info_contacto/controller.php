@@ -63,7 +63,8 @@ class Controlador
     public function putTextoById($body, $id)
     {
         $con = new Conexion();
-        $sql = "UPDATE info_contacto SET nombre = '$body->nombre', icono = '$body->icono', texto = '$body->texto', texto_adicional = '$body->texto_adicional' WHERE id = $id;";
+        $sql = "UPDATE info_contacto SET nombre = '$body->nombre', icono = '$body->icono', 
+        texto = '$body->texto', texto_adicional = '$body->texto_adicional' WHERE id = $id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
