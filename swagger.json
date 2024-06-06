@@ -453,6 +453,220 @@
                     }
                 ]
             }
+        },
+        "/categoria_servicio/": {
+            "get": {
+                "tags": [
+                    "categoria_servicio"
+                ],
+                "summary": "Retorna todos los objetos",
+                "description": "Retorna la información respecto a los servicios que se ofrecen, junto a sus descripciones. Incluye: id, nombre, texto, imagen y activo",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoriaServicioResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthGet": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "categoria_servicio"
+                ],
+                "summary": "Crea nuevo tipo de servicio",
+                "description": "Crea un nuevo tipo de servicio, incluye: nombre, imagen y texto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoriaServicioCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Creación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Error: Conflicto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictoExiste"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthPost": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "categoria_servicio"
+                ],
+                "summary": "Apagar o Encender un objeto",
+                "description": "Apaga o Enciende un objeto básico, deja activo en false o true respectivamente.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID del objeto",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "accion",
+                        "in": "query",
+                        "description": "La acción es requerida para la ejecución.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "apagar",
+                                "encender"
+                            ],
+                            "default": "apagar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cambio exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthPatch": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "categoria_servicio"
+                ],
+                "summary": "Modifica los datos de un objeto",
+                "description": "Se puede sólo modificar el campo `nombre`",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoriaServicioUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Actualización exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthPut": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "categoria_servicio"
+                ],
+                "summary": "Eliminar un objeto",
+                "description": "Elimina un objeto básico, lo borra de la base de datos.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID del objeto",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Eliminación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    },
+                    "404": {
+                        "description": "Error: No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictoExiste"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Error: No implementado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthDelete": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -544,19 +758,6 @@
                     "mantenedor"
                 ]
             },
-            "MantenimientoInfoUpdate": {
-                "type": "object",
-                "properties": {
-                    "nombre": {
-                        "type": "string",
-                        "example": "Desarrollo Backend"
-                    },
-                    "id": {
-                        "type": "integer",
-                        "example": 13
-                    }
-                }
-            },
             "MantenedorResponse": {
                 "type": "object",
                 "properties": {
@@ -580,34 +781,6 @@
                     "nombre"
                 ]
             },
-            "MantenimientoInfoCreate": {
-                "type": "object",
-                "properties": {
-                    "nombre": {
-                        "type": "string",
-                        "example": "Mantenimiento preventivo"
-                    },
-                    "texto": {
-                        "type": "string",
-                        "example": "Ayuda a prolongar la vida útil de tus activos y aumenta la productividad."
-                    }
-                },
-                "required": [
-                    "nombre",
-                    "texto"
-                ]
-            },
-            "MantenimientoInfoResponse": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/MantenimientoInfoItem"
-                        }
-                    }
-                }
-            },
             "MantenimientoInfoItem": {
                 "type": "object",
                 "properties": {
@@ -628,6 +801,114 @@
                         "example": true
                     }
                 }
+            },
+            "MantenimientoInfoUpdate": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "Desarrollo Backend"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "example": 13
+                    }
+                }
+            },
+            "MantenimientoInfoResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MantenimientoInfoItem"
+                        }
+                    }
+                }
+            },
+            "MantenimientoInfoCreate": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "Mantenimiento preventivo"
+                    },
+                    "texto": {
+                        "type": "string",
+                        "example": "Ayuda a prolongar la vida útil de tus activos y aumenta la productividad."
+                    }
+                },
+                "required": [
+                    "nombre",
+                    "texto"
+                ]
+            },
+            "CategoriaServicioItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "Mantenimiento"
+                    },
+                    "texto": {
+                        "type": "string",
+                        "example": "Conjunto de operaciones y cuidados necesarios."
+                    },
+                    "activo": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                }
+            },
+            "CategoriaServicioUpdate": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "Aire acondicionado"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "example": 5
+                    }
+                }
+            },
+            "CategoriaServicioResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoriaServicioItem"
+                        }
+                    }
+                }
+            },
+            "CategoriaServicioCreate": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "Aire acondicionado"
+                    },
+                    "imagen": {
+                        "type": "string",
+                        "example": "https://www.energyandwater.cl/gallery_gen/6f174bfc2c2d263b250ab7bee3d6255f_640x1116_fit.jpg"
+                    },
+                    "texto": {
+                        "type": "string",
+                        "example": "Instalamos, reparamos y revisamos todo tipo de calderas, tanto de gas como eléctricas. Nos encargamos del mantenimiento preventivo, la sustitución de piezas, la purga de radiadores y la regulación de la presión y la temperatura."
+                    }
+                },
+                "required": [
+                    "nombre",
+                    "texto",
+                    "imagen"
+                ]
             }
         }
     },
