@@ -15,7 +15,7 @@ class Conexion
         $this->server = $_SERVER['HTTP_HOST'];
         $this->connection = null;
         $this->port = 3306; //puerto por default de mysql
-        $this->db = 'energy_and_water_v1';
+        $this->db = 'energy_and_water_v2';
 
         if ($this->server == 'localhost'){
             $this->username = 'grupo_martinez_carmona_figueroa';
