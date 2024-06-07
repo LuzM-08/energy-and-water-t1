@@ -13,11 +13,8 @@ class Controlador
     public function getAll()
     {
         $con = new Conexion();
-        $sql = "SELECT equi.id, equi.tipo, equi.texto, equi.activo, img.imagen 
-        FROM equipo equi 
-        LEFT OUTER JOIN equipo_imagen equimg ON equi.id = equimg.equipo_id 
-        LEFT OUTER JOIN imagen img ON equimg.imagen_id = img.id 
-        ORDER BY equi.id;";
+        $sql = "SELECT id, tipo, texto, imagen, activo
+        FROM equipo equi;";
         $rs = mysqli_query($con->getConnection(), $sql);
         if ($rs) {
             while ($tupla = mysqli_fetch_assoc($rs)) {
