@@ -32,7 +32,6 @@
             "name": "preguntas_frecuentes",
             "description": "Preguntas más preguntadas :)"
         }
-
     ],
     "paths": {
         "/mantenedor/": {
@@ -890,7 +889,7 @@
                     }
                 ]
             }
-        }, 
+        },
         "/preguntas_frecuentes/": {
             "get": {
                 "tags": [
@@ -1103,6 +1102,288 @@
                         "bearerAuthDelete": []
                     }
                 ]
+            }
+        },
+        "/historia/": {
+            "get": {
+                "tags": [
+                    "historia"
+                ],
+                "summary": "Retorna todos los objetos de historia",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HistoriaResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthGet": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "historia"
+                ],
+                "summary": "Crea un nuevo objeto de historia",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HistoriaCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Creación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Error: Conflicto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictoExiste"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthPost": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "historia"
+                ],
+                "summary": "Apagar o Encender un objeto de historia",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID del objeto",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "accion",
+                        "in": "query",
+                        "description": "La acción es requerida para la ejecución.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "apagar",
+                                "encender"
+                            ],
+                            "default": "apagar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cambio exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthPatch": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "historia"
+                ],
+                "summary": "Modifica los datos de un objeto de historia",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/HistoriaUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Actualización exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthPut": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "historia"
+                ],
+                "summary": "Eliminar un objeto de historia",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID del objeto",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Eliminación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResultadoOk"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Sin Autorización"
+                    },
+                    "404": {
+                        "description": "Error: No encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictoExiste"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Error: No implementado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuthDelete": []
+                    }
+                ]
+            }
+        },
+        "/info_contacto/": {
+            "get": {
+                "tags": [
+                    "info_contacto"
+                ],
+                "summary": "Retorna los datos de contacto",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InfoContactoResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "info_contacto"
+                ],
+                "summary": "Crea un nuevo dato de contacto",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InfoContactoCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Creación exitosa"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "info_contacto"
+                ],
+                "summary": "Actualiza un dato de contacto existente",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InfoContactoUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Actualización exitosa"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "info_contacto"
+                ],
+                "summary": "Elimina un dato de contacto",
+                "responses": {
+                    "200": {
+                        "description": "Eliminación exitosa"
+                    }
+                }
             }
         }
     },
@@ -1420,7 +1701,7 @@
                     "texto"
                 ]
             },
-               "PreguntasFrecuentesResponse": {
+            "PreguntasFrecuentesResponse": {
                 "type": "object",
                 "properties": {
                     "data": {
@@ -1487,6 +1768,163 @@
                 "required": [
                     "id"
                 ]
+            },
+            "HistoriaItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "example": "Mantenimiento preventivo"
+                    },
+                    "texto": {
+                        "type": "string",
+                        "example": "Descripción del tipo de mantenimiento preventivo"
+                    },
+                    "activo": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "imagen": {
+                        "type": "string",
+                        "example": "https://ejemplo.com/imagen.jpg"
+                    }
+                }
+            },
+            "HistoriaResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HistoriaItem"
+                        }
+                    }
+                }
+            },
+            "HistoriaCreate": {
+                "type": "object",
+                "properties": {
+                    "tipo": {
+                        "type": "string",
+                        "example": "Mantenimiento correctivo"
+                    },
+                    "texto": {
+                        "type": "string",
+                        "example": "Descripción del mantenimiento correctivo"
+                    },
+                    "imagen": {
+                        "type": "string",
+                        "example": "https://ejemplo.com/imagen.jpg"
+                    }
+                },
+                "required": [
+                    "tipo",
+                    "texto",
+                    "imagen"
+                ]
+            },
+            "HistoriaUpdate": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "tipo": {
+                    "type": "string",
+                    "example": "Mantenimiento predictivo"
+                },
+                "texto": {
+                    "type": "string",
+                    "example": "Descripción del mantenimiento predictivo"
+                },
+                "imagen": {
+                    "type": "string",
+                    "example": "https://ejemplo.com/nueva-imagen.jpg"
+                },
+                "required": [
+                    "id",
+                    "tipo",
+                    "texto",
+                    "imagen"
+                ]
+            },
+            "InfoContactoResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InfoContactoItem"
+                        }
+                    }
+                }
+            },
+            "InfoContactoItem": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string",
+                        "example": "Nombre del Contacto"
+                    },
+                    "icono": {
+                        "type": "string",
+                        "example": "icono.png"
+                    },
+                    "texto": {
+                        "type": "string",
+                        "example": "Texto del contacto"
+                    },
+                    "texto_adicional": {
+                        "type": "string",
+                        "example": "Texto adicional del contacto"
+                    }
+                }
+            },
+            "InfoContactoCreate": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "icono": {
+                        "type": "string"
+                    },
+                    "texto": {
+                        "type": "string"
+                    },
+                    "texto_adicional": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "nombre",
+                    "icono",
+                    "texto",
+                    "texto_adicional"
+                ]
+            },
+            "InfoContactoUpdate": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "icono": {
+                        "type": "string"
+                    },
+                    "texto": {
+                        "type": "string"
+                    },
+                    "texto_adicional": {
+                        "type": "string"
+                    }
+                }
             }
         }
     },

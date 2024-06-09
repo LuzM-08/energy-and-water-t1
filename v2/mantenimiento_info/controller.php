@@ -13,14 +13,11 @@ class Controlador
     public function getAll()
     {
         $con = new Conexion();
-        $sql = "SELECT equi.id, equi.tipo, equi.texto, equi.activo, img.imagen 
-        FROM equipo equi 
-        LEFT OUTER JOIN equipo_imagen equimg ON equi.id = equimg.equipo_id 
-        LEFT OUTER JOIN imagen img ON equimg.imagen_id = img.id 
-        ORDER BY equi.id;";
+        $sql = "SELECT id, nombre, texto, activo FROM mantenimiento_info;";
         $rs = mysqli_query($con->getConnection(), $sql);
         if ($rs) {
             while ($tupla = mysqli_fetch_assoc($rs)) {
+                $tupla['activo'] = $tupla['activo'] == 1 ? true : false;
                 array_push($this->lista, $tupla);
             }
             mysqli_free_result($rs);
@@ -29,22 +26,20 @@ class Controlador
         return $this->lista;
     }
 
-    public function postNuevo($_tipo, $_texto)
+    public function postNuevo($_newObject)
     {
         $con = new Conexion();
         $id = count($this->getAll()) + 1;
-        $sql = "INSERT INTO equipo (id, tipo, texto, activo) VALUES ($id, '$_tipo->tipo', '$_texto->texto', false);";
+        $sql = "INSERT INTO mantenimiento_info (id, nombre, texto, activo) VALUES ($id, '$_newObject->nombre', '$_newObject->texto', true);";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
-            return $rs;
+            return true;
         }
         return null;
     }
@@ -52,35 +47,31 @@ class Controlador
     public function patchEncenderApagar($_id, $_accion)
     {
         $con = new Conexion();
-        $sql = "UPDATE equipo SET activo = $_accion WHERE id = $_id;";
+        $sql = "UPDATE mantenimiento_info SET activo = $_accion WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
             return true;
         }
         return null;
     }
 
-    public function putTextoById($_texto, $_id)
-    {   $con = new Conexion();
-        $sql = "UPDATE equipo SET texto = '$_texto->texto' WHERE id = '$_id->id';";
-        // echo $sql;
+    public function putNombreById($_nombre, $_id)
+    {
+        $con = new Conexion();
+        $sql = "UPDATE mantenimiento_info SET nombre = '$_nombre' WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
             return true;
         }
@@ -90,16 +81,14 @@ class Controlador
     public function deleteById($_id)
     {
         $con = new Conexion();
-        $sql = "DELETE FROM equipo WHERE id = $_id;";
+        $sql = "DELETE FROM mantenimiento_info WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
             return true;
         }

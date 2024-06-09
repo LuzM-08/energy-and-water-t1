@@ -1,5 +1,5 @@
 <?php
-include_once '../version1.php';
+include_once '../version3.php';
 
 //parametros
 $existeId = false;
@@ -20,17 +20,24 @@ if (count($_parametros) > 0) {
     }
 }
 
-if ($_version == 'v1') {
+if ($_version == 'v3') {
     if ($_mantenedor == 'historia') {
         switch ($_metodo) {
             case 'GET':
                 if ($_header == $_token_get) {
                     include_once 'controller.php';
                     include_once '../conexion.php';
+                    
                     $control = new Controlador();
-                    $lista = $control->getAll();
-                    http_response_code(200);
-                    echo json_encode(['data' => $lista]);
+                    $data = $control->getByID($valorId);
+                    
+                    if ($data) {
+                        http_response_code(200);
+                        echo json_encode(['data' => $data]);
+                    } else {
+                        http_response_code(404);
+                        echo json_encode(['error' => 'No data found for the given ID.']);
+                    }
                 } else {
                     http_response_code(401);
                     echo json_encode(['error' => 'Error: No tiene autorización GET.']);

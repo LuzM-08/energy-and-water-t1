@@ -2,6 +2,7 @@
 
 class Controlador
 {
+
     private $lista;
 
     public function __construct()
@@ -12,14 +13,11 @@ class Controlador
     public function getAll()
     {
         $con = new Conexion();
-        $sql = "SELECT his.id, his.tipo, his.texto, his.activo, img.imagen 
-                FROM historia his 
-                LEFT OUTER JOIN historia_imagen hisimg ON his.id = hisimg.historia_id 
-                LEFT OUTER JOIN imagen img ON hisimg.imagen_id = img.id 
-                ORDER BY his.id;";
+        $sql = "SELECT id, nombre, imagen, texto, activo FROM categoria_servicio";
         $rs = mysqli_query($con->getConnection(), $sql);
         if ($rs) {
             while ($tupla = mysqli_fetch_assoc($rs)) {
+                $tupla['activo'] = $tupla['activo'] == 1 ? true : false;
                 array_push($this->lista, $tupla);
             }
             mysqli_free_result($rs);
@@ -28,22 +26,21 @@ class Controlador
         return $this->lista;
     }
 
-    public function postNuevo($_tipo, $_texto)
+    public function postNuevo($_newObject)
     {
         $con = new Conexion();
         $id = count($this->getAll()) + 1;
-        $sql = "INSERT INTO historia (id, tipo, texto, activo) VALUES ($id, '$_tipo->tipo', '$_texto->texto', false);";
+        $sql = "INSERT INTO categoria_servicio (id, nombre, imagen, texto, activo) 
+        VALUES ($id, '$_newObject->nombre', '$_newObject->imagen', '$_newObject->texto', true);";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
-            return $rs;
+            return true;
         }
         return null;
     }
@@ -51,36 +48,31 @@ class Controlador
     public function patchEncenderApagar($_id, $_accion)
     {
         $con = new Conexion();
-        $sql = "UPDATE historia SET activo = $_accion WHERE id = $_id;";
+        $sql = "UPDATE categoria_servicio SET activo = $_accion WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
             return true;
         }
         return null;
     }
 
-    public function putTextoById($_texto, $_id)
-    {   
+    public function putNombreById($_nombre, $_id)
+    {
         $con = new Conexion();
-        $sql = "UPDATE historia SET texto = '$_texto->texto' WHERE id = '$_id->id';";
-        // echo $sql;
+        $sql = "UPDATE categoria_servicio SET nombre = '$_nombre' WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
             return true;
         }
@@ -90,20 +82,17 @@ class Controlador
     public function deleteById($_id)
     {
         $con = new Conexion();
-        $sql = "DELETE FROM historia WHERE id = $_id;";
+        $sql = "DELETE FROM categoria_servicio WHERE id = $_id;";
         $rs = false;
         try {
             $rs = mysqli_query($con->getConnection(), $sql);
         } catch (\Throwable $th) {
             $rs = false;
         }
-        // cerramos la conexion
         $con->closeConnection();
-        // comprobamos la respuesta
         if ($rs) {
             return true;
         }
         return null;
     }
 }
-?>
